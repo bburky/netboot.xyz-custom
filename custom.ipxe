@@ -25,6 +25,9 @@ iseq ${os_arch} amd64 && set ubuntu_iso_url http://releases.ubuntu.com/${codenam
 iseq ${os_arch} arm64 && set ubuntu_iso_url http://cdimage.ubuntu.com/releases/${version_number}/release/ubuntu-${version_number}-live-server-${os_arch}.iso ||
 isset ${dhcp-server} && set netboot_params ip=dhcp url=${ubuntu_iso_url} || set netboot_params
 echo Loading Ubuntu Subiquity Network Installer...
+echo arch ${arch}
+echo os_arch ${arch}
+echo ubuntu_iso_url ${ubuntu_iso_url}
 echo kernel ${kernel_url}vmlinuz root=/dev/ram0 ramdisk_size=1500000 ${netboot_params} ${install_params} initrd=initrd.magic ${cmdline}
 kernel ${kernel_url}vmlinuz root=/dev/ram0 ramdisk_size=1500000 ${netboot_params} ${install_params} initrd=initrd.magic ${cmdline}
 initrd ${kernel_url}initrd
