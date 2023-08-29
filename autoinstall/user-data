@@ -13,7 +13,7 @@ autoinstall:
         layout:
             name: lvm
             match:
-                model: "MKNSSDRE1TB     "
+                model: "MKNSSDRE1TB"
     ssh:
         install-server: yes
         authorized-keys:
