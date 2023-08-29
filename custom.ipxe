@@ -8,6 +8,7 @@ clear custom_choice
 menu This is a Test Menu
 item custom_22.04_amd64 ${space} custom_22.04_amd64
 item custom_22.04_amd64_live ${space} custom_22.04_amd64_live
+item custom_22.04_amd64_live_hide ${space} custom_22.04_amd64_live_hide
 choose custom_choice || goto custom_exit
 echo ${cls}
 goto ${custom_choice}
@@ -36,6 +37,14 @@ set squash_url ${live_endpoint}/ubuntu-squash/releases/download/22.04.3-54de5f62
 set kernel_url ${live_endpoint}/ubuntu-squash/releases/download/22.04.3-54de5f62/
 imgfree
 kernel ${kernel_url}vmlinuz ip=dhcp boot=casper netboot=url url=${squash_url} initrd=initrd.magic ${cmdline}
+initrd ${kernel_url}initrd
+boot || goto custom_exit
+
+:custom_22.04_amd64_live_hide
+set squash_url ${live_endpoint}/ubuntu-squash/releases/download/22.04.3-54de5f62/filesystem.squashfs
+set kernel_url ${live_endpoint}/ubuntu-squash/releases/download/22.04.3-54de5f62/
+imgfree
+kernel ${kernel_url}vmlinuz ip=dhcp boot=casper netboot=url url=${squash_url} initrd=initrd.magic vfio-pci.ids=1c5c:174a,15b7:5030 ${cmdline}
 initrd ${kernel_url}initrd
 boot || goto custom_exit
 
