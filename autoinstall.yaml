@@ -1,0 +1,25 @@
+#cloud-config
+version: 1
+autoinstall:
+    # late-commands:
+    #     - foo
+    # early-commands:
+    #     - foo
+    # network:
+    #     network:
+    # packages:
+    #     - foo
+    storage:
+        layout:
+            name: lvm
+            match:
+                model: "MKNSSDRE1TB     "
+    ssh:
+        install-server: yes
+        authorized-keys:
+        - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDOqA17LOoERyTpng12R8JunvdqPZpAVlBWKPRGklvGcyMyzjr+bw8SZk+NLMmgFATkg2WbH58Rrf59UC6cUuvse45rn0BBADhNY2Hq1ZT2+NHGXOF0BjHLboJN+63ogndnc8UwOPxr55yHFOe7a5c5I9yO09Fw7sjUL5p9btLnigspmd3Mz5xIlRhdrnEfloiVJ2kl0p+2GC6Z1vxQ/rm+qIg1imb+hI2DEJ/yAi0+5x0+Bu8zJ77A7SlplvLvOE4rOB4LnIIppMIpKw+4mPAOg+rORVaUsD17bqSoR4PQJlH9+TcoaEM9hAMWegzyYqXxQsr8lF2zOT7odaZmZmlpzIoYlPfiO0bJBY28LLAzXu2Xl3cwhpaLDOt6Fjx5hdAaylUp0yfkIXEbEm2pC+OYdNWi1AKt4wr3EesdqkovhnA35DbPe4e79qKiuzcJXA1O2QcIvgDFM+njvcGjIKA0JOo/7itMHkjXTQ6h/3ko+dkMQa//35PMF85zZH5P08U=
+        - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAlMvKelq4naw8MBhzQ7O6JlBeBxjvpOoLoQsPRCEdfI
+        allow-pw: no
+    user-data:
+        {}
+        # disable_root: false
