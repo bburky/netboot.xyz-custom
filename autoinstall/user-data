@@ -1,6 +1,6 @@
 #cloud-config
-version: 1
 autoinstall:
+    version: 1
     # late-commands:
     #     - foo
     # early-commands:
