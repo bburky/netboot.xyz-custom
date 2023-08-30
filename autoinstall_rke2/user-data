@@ -103,3 +103,6 @@ autoinstall:
         - curl -sfL https://get.rke2.io | INSTALL_RKE2_VERSION="v1.26.3+rke2r1" sh -
         - mkdir -p /etc/rancher/rke2
         - 'sudo bash -c "/opt/setup.sh server | tee /tmp/setup.log"'
+        - 'mkdir /home/ubuntu/.kube'
+        - 'cp /etc/rancher/rke2/rke2.yaml /home/ubuntu/.kube'
+        
