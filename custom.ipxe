@@ -45,7 +45,7 @@ boot || goto custom_exit
 
 :custom_22.04_amd64_live_autoinstall
 set install_url https://raw.githubusercontent.com/bburky/netboot.xyz-custom/master/autoinstall
-goto 04_amd64_live_autoinstall_boot
+goto custom_22.04_amd64_live_autoinstall_boot
 
 :custom_22.04_amd64_live_autoinstall_rke2
 set install_url https://raw.githubusercontent.com/bburky/netboot.xyz-custom/master/autoinstall_rke2
