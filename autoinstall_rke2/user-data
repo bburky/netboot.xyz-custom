@@ -27,6 +27,7 @@ autoinstall:
         hostname: workstation-rke2
         packages:
             - jq
+            - beep
         # ssh_pwauth: True
         # disable_root: false
         # preserve_hostname: true
@@ -110,4 +111,6 @@ autoinstall:
         # TODO: may have issues with multiple interfaces
         - |
             sed "s_server: .*_server: https://$(ip --json  route get 192.168.0.1  | jq -r '.[0].prefsrc'):6443/_" /etc/rancher/rke2/rke2.yaml > /home/ubuntu/.kube'
-        
+        # Beep on completion of cloud-init
+        - 'modprobe pcspkr'
+        - 'beep -d 1200 -f 988 -l 200  --new -f 1319 -l 800'
