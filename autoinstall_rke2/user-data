@@ -29,13 +29,13 @@ autoinstall:
         # preserve_hostname: true
         write_files:
         -   path: /etc/sysctl.d/99-k8s.conf
-            permissions: 0644
+            permissions: '0644'
             content: |
                 vm.max_map_count=1524288
                 fs.inotify.max_user_instances=8192
         
         -   path: /etc/security/limits.d/99-k8s.conf
-            permissions: 0644
+            permissions: '0644'
             content: |
                 * hard nofile 1000000
                 * soft nofile 1000000
@@ -43,7 +43,7 @@ autoinstall:
                 * soft nproc 8192
 
         -   path: /opt/setup.sh
-            permissions: 0770
+            permissions: '0770'
             content: |
                 #!/bin/bash
                 set -x
@@ -80,7 +80,7 @@ autoinstall:
 
         -   path: /etc/rancher/rke2/config.yaml
             owner: root:root
-            permissions: 0600
+            permissions: '0600'
             defer: true
             content: |
                 disable-cloud-controller: true
