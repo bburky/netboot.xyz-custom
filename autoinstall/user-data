@@ -10,6 +10,8 @@ autoinstall:
     # packages:
     #     - foo
     storage:
+        swap:
+           size: 0
         layout:
             name: lvm
             match:
@@ -20,6 +22,33 @@ autoinstall:
         - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDOqA17LOoERyTpng12R8JunvdqPZpAVlBWKPRGklvGcyMyzjr+bw8SZk+NLMmgFATkg2WbH58Rrf59UC6cUuvse45rn0BBADhNY2Hq1ZT2+NHGXOF0BjHLboJN+63ogndnc8UwOPxr55yHFOe7a5c5I9yO09Fw7sjUL5p9btLnigspmd3Mz5xIlRhdrnEfloiVJ2kl0p+2GC6Z1vxQ/rm+qIg1imb+hI2DEJ/yAi0+5x0+Bu8zJ77A7SlplvLvOE4rOB4LnIIppMIpKw+4mPAOg+rORVaUsD17bqSoR4PQJlH9+TcoaEM9hAMWegzyYqXxQsr8lF2zOT7odaZmZmlpzIoYlPfiO0bJBY28LLAzXu2Xl3cwhpaLDOt6Fjx5hdAaylUp0yfkIXEbEm2pC+OYdNWi1AKt4wr3EesdqkovhnA35DbPe4e79qKiuzcJXA1O2QcIvgDFM+njvcGjIKA0JOo/7itMHkjXTQ6h/3ko+dkMQa//35PMF85zZH5P08U=
         - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAlMvKelq4naw8MBhzQ7O6JlBeBxjvpOoLoQsPRCEdfI
         allow-pw: no
+
     user-data:
-        {}
-        # disable_root: false
+        apt:
+            sources:
+                docker.list:
+                    source: "deb [arch=amd64] https://download.docker.com/linux/ubuntu $RELEASE stable"
+                    keyid: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
+
+        packages:
+            - docker-ce
+            - docker-ce-cli
+            - containerd.io
+            - docker-buildx-plugin
+            - docker-compose-plugin
+
+        runcmd:
+        - [ systemctl, enable, docker ]
+        - [ systemctl, restart, docker ]
+        - [ usermod, -aG, docker, ubuntu ]
+
+        # - "curl -sfL https://get.k3s.io | sh -s - --docker"
+        - "curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash"
+
+        - [ curl, -L, -o, /usr/local/bin/zarf, https://github.com/defenseunicorns/zarf/releases/download/v0.27.1/zarf_v0.27.1_Linux_amd64 ]
+        - [ chmod, +x, /usr/local/bin/zarf ]
+
+        - [ swapoff, -a ]
+        - [ sed, -e, '/swap/ s/^#*/#/', -i, /etc/fstab ]
+        - [ systemctl, mask, swap.target ]               
+        - [ sysctl, --system ]

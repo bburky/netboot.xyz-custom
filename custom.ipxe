@@ -11,6 +11,7 @@ menu This is a Test Menu
 item custom_22.04_amd64 ${space} custom_22.04_amd64
 item custom_22.04_amd64_live ${space} custom_22.04_amd64_live
 item custom_22.04_amd64_live_autoinstall ${space} custom_22.04_amd64_live_autoinstall
+item custom_22.04_amd64_live_autoinstall_rke2 ${space} custom_22.04_amd64_live_autoinstall_rke2
 choose custom_choice || goto custom_exit
 echo ${cls}
 goto ${custom_choice}
@@ -27,7 +28,6 @@ iseq ${os_arch} amd64 && set ubuntu_iso_url http://releases.ubuntu.com/${codenam
 iseq ${os_arch} arm64 && set ubuntu_iso_url http://cdimage.ubuntu.com/releases/${version_number}/release/ubuntu-${version_number}-live-server-${os_arch}.iso ||
 isset ${dhcp-server} && set netboot_params ip=dhcp url=${ubuntu_iso_url} || set netboot_params
 echo Loading Ubuntu Subiquity Network Installer...
-echo kernel ${kernel_url}vmlinuz root=/dev/ram0 ramdisk_size=1500000 ${netboot_params} ${install_params} initrd=initrd.magic ${cmdline}
 kernel ${kernel_url}vmlinuz root=/dev/ram0 ramdisk_size=1500000 ${netboot_params} ${install_params} initrd=initrd.magic ${cmdline}
 initrd ${kernel_url}initrd
 echo
@@ -43,20 +43,25 @@ kernel ${kernel_url}vmlinuz ip=dhcp boot=casper netboot=url url=${squash_url} in
 initrd ${kernel_url}initrd
 boot || goto custom_exit
 
-
 :custom_22.04_amd64_live_autoinstall
+set install_url https://raw.githubusercontent.com/bburky/netboot.xyz-custom/master/autoinstall
+goto 04_amd64_live_autoinstall_boot
+
+:custom_22.04_amd64_live_autoinstall_rke2
+set install_url https://raw.githubusercontent.com/bburky/netboot.xyz-custom/master/autoinstall_rke2
+goto 04_amd64_live_autoinstall_boot
+
+:custom_22.04_amd64_live_autoinstall_boot
 set os Ubuntu
 set os_arch amd64
 set kernel_url ${live_endpoint}/ubuntu-squash/releases/download/22.04.3-7d91a596/
 set codename jammy
 set version_number 22.04.3
-set install_url https://raw.githubusercontent.com/bburky/netboot.xyz-custom/master/autoinstall
 imgfree
 iseq ${os_arch} amd64 && set ubuntu_iso_url http://releases.ubuntu.com/${codename}/ubuntu-${version_number}-live-server-${os_arch}.iso ||
 iseq ${os_arch} arm64 && set ubuntu_iso_url http://cdimage.ubuntu.com/releases/${version_number}/release/ubuntu-${version_number}-live-server-${os_arch}.iso ||
 isset ${dhcp-server} && set netboot_params ip=dhcp url=${ubuntu_iso_url} || set netboot_params
 echo Loading Ubuntu Subiquity Network Installer...
-echo kernel ${kernel_url}vmlinuz root=/dev/ram0 ramdisk_size=1500000 ${netboot_params} ${install_params} initrd=initrd.magic autoinstall ds=nocloud-net;s=${install_url} ${cmdline}
 kernel ${kernel_url}vmlinuz root=/dev/ram0 ramdisk_size=1500000 ${netboot_params} ${install_params} initrd=initrd.magic autoinstall ds=nocloud-net;s=${install_url} ${cmdline}
 initrd ${kernel_url}initrd
 echo
