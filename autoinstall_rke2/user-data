@@ -25,6 +25,8 @@ autoinstall:
 
     user-data:
         hostname: workstation-rke2
+        packages:
+            - jq
         # ssh_pwauth: True
         # disable_root: false
         # preserve_hostname: true
@@ -105,5 +107,7 @@ autoinstall:
         - mkdir -p /etc/rancher/rke2
         - 'sudo bash -c "/opt/setup.sh server | tee /tmp/setup.log"'
         - 'mkdir /home/ubuntu/.kube'
-        - 'cp /etc/rancher/rke2/rke2.yaml /home/ubuntu/.kube'
+        # TODO: may have issues with multiple interfaces
+        - |
+            sed "s_server: .*_server: https://$(ip --json  route get 192.168.0.1  | jq -r '.[0].prefsrc'):6443/_" /etc/rancher/rke2/rke2.yaml > /home/ubuntu/.kube'
         
