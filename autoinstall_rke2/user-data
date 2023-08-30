@@ -24,6 +24,7 @@ autoinstall:
         - echo 'ubuntu ALL=(ALL) NOPASSWD:ALL' > /target/etc/sudoers.d/ubuntu
 
     user-data:
+        hostname: workstation-rke2
         # ssh_pwauth: True
         # disable_root: false
         # preserve_hostname: true
