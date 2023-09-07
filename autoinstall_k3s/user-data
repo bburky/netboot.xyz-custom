@@ -5,8 +5,8 @@ autoinstall:
         - |
             [ "$(cat /sys/devices/virtual/dmi/id/board_name)" = "X11SSV-Q" ] || (echo "ERROR: board_name mismatch" && exit 1)
         # zfs-utils appears to be missing from the installer:
-        - apt update
-        - apt-get install -y zfs-utils
+        - apt-get update
+        - apt-get install -y zfsutils-linux
     # network:
     #     network:
     # packages:
