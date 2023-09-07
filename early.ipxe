@@ -1,4 +1,5 @@
 #!ipxe
 
-#test:
-set github_user netbootxyz
+# nothing for now
+
+# TODO: for server, auto boot server config directly skipping interactive menu entirely

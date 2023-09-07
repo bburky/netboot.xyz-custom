@@ -3,14 +3,15 @@
 ### netboot.xyz-custom menu
 ###
 
- # ${arch} is x86_64, not amd64 as some of the scripts seem to expect
+# ${arch} is x86_64, not amd64 as some of the scripts seem to expect
 
 :custom
 clear custom_choice
-menu This is a Test Menu
+menu @bburky
 item custom_22.04_amd64 ${space} custom_22.04_amd64
 item custom_22.04_amd64_live ${space} custom_22.04_amd64_live
 item custom_22.04_amd64_live_autoinstall ${space} custom_22.04_amd64_live_autoinstall
+item custom_22.04_amd64_live_auto_k3s ${space} custom_22.04_amd64_live_auto_k3s
 item custom_22.04_amd64_live_auto_rke2 ${space} custom_22.04_amd64_live_auto_rke2
 choose custom_choice || goto custom_exit
 echo ${cls}
