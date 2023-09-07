@@ -1,8 +1,9 @@
 #cloud-config
 autoinstall:
     version: 1
-    # early-commands:
-    #     - foo
+    early-commands:
+        - |
+            [ "$(cat /sys/devices/virtual/dmi/id/board_name)" == "ProArt X670E-CREATOR WIFI" ] || echo "ERROR: board_name mismatch" && exit 1
     # network:
     #     network:
     # packages:
