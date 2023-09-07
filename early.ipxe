@@ -2,4 +2,10 @@
 
 # nothing for now
 
-# TODO: for server, auto boot server config directly skipping interactive menu entirely
+# TODO: conditionally (based on hostname?) auto boot server config directly skipping interactive menu entirely
+
+# DHCP provided hostname:
+# ${hostname}
+
+# SMBIOS board-product name:
+# ${smbios/2.5.0}
