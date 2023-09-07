@@ -22,7 +22,6 @@ autoinstall:
         allow-pw: no
     late-commands:
         - echo 'ubuntu ALL=(ALL) NOPASSWD:ALL' > /target/etc/sudoers.d/ubuntu
-        - sleep 9999
     user-data:
         hostname: workstation-rke2
         packages:

@@ -24,7 +24,6 @@ autoinstall:
         allow-pw: no
     late-commands:
         - echo 'ubuntu ALL=(ALL) NOPASSWD:ALL' > /target/etc/sudoers.d/ubuntu
-        - sleep 9999
     user-data:
         hostname: server-k3s
         packages:
