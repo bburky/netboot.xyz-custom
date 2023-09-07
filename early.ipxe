@@ -1,0 +1,4 @@
+#!ipxe
+
+#test:
+set github_user netbootxyz

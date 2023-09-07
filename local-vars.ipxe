@@ -1,0 +1,13 @@
+#!ipxe
+
+# Used for adding local variables before loading the menu
+# See:
+#   https://github.com/netbootxyz/netboot.xyz/blob/development/roles/netbootxyz/templates/local-vars.ipxe.j2
+#   https://github.com/netbootxyz/netboot.xyz/blob/development/roles/netbootxyz/templates/disks/netboot.xyz.j2#L31
+# This file is uploaded beside netboot.xyz.efi on the PXE server
+
+### set to enable enable github custom menu
+set github_user bburky
+
+# Run additional commands early before the netboot.xyz menu launches, chained to GitHub to allow easier customization
+chain https://raw.githubusercontent.com/${github_user}/netboot.xyz-custom/master/early.ipxe
