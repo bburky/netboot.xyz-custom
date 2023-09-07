@@ -60,6 +60,7 @@ autoinstall:
               number: 3
               preserve: false
               type: partition
+              size: -1
             - id: lvm_volgroup-0
               name: ubuntu-vg
               devices:
@@ -100,7 +101,7 @@ autoinstall:
             - id: disk2p1
               type: partition
               number: 2
-              # size: 15G
+              size: -1
               device: disk2
             # we're using GPT and EFI, creating ESP partition
             - id: disk2p0
