@@ -97,12 +97,6 @@ autoinstall:
               ptable: gpt
               path: /dev/sdb
               wipe: superblock-recursive
-            # partition for filesystem
-            - id: disk2p1
-              type: partition
-              number: 2
-              size: -1
-              device: disk2
             # we're using GPT and EFI, creating ESP partition
             - id: disk2p0
               device: disk2
@@ -116,7 +110,13 @@ autoinstall:
               label: efi
               fstype: fat32
               type: format
-              volume: disk2p0            
+              volume: disk2p0
+            # partition for filesystem
+            - id: disk2p1
+              type: partition
+              number: 2
+              size: -1
+              device: disk2
             # make a zpool with our disk
             # zpool create -o ashift=12 \
             #              -O atime=off -O canmount=off -O compression=lz4 \
