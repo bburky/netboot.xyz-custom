@@ -120,41 +120,42 @@ autoinstall:
               number: 2
               size: -1
               device: disk2
-            # make a zpool with our disk
-            # zpool create -o ashift=12 \
-            #              -O atime=off -O canmount=off -O compression=lz4 \
-            #              -O normalization=formD -O mountpoint=/ -R /TARGET_MOUNTPOINT \
-            #              tank /dev/disk/by-id/virtio-abcdefghi123
-            - type: zpool
-              id: disk2_zpool
-              pool: tank
-              vdevs:
-              - disk2p1
-              mountpoint: /
-              pool_properties:
-                ashift: 12      # (or more, based on /sys)
-              fs_properties:
-                acltype: posixacl
-                relatime: on
-                canmount: off
-                compression: lz4
-                devices: off
-                #normalization: formD  # Disabled for the time being until boot is stable
-                xattr: sa
-            # Create ROOT datasets
-            # zfs create tank/ROOT -o canmount=off -o mountpoint=none
-            - type: zfs
-              id: disk2_dataset
-              pool: disk2_zpool
-              volume: /ROOT   # (tank/ROOT)
-              properties:
-                canmount: off
-                mountpoint: none
-            # WORKAROUND: create the ESP mount AFTER / on ZFS
-            # -   id: disk2p0_mount
-            #     device: disk2p0_format
-            #     path: /boot/efi
-            #     type: mount
+            # Not working, and doesn't support "preserve:" anyway
+            # # make a zpool with our disk
+            # # zpool create -o ashift=12 \
+            # #              -O atime=off -O canmount=off -O compression=lz4 \
+            # #              -O normalization=formD -O mountpoint=/tank \
+            # #              tank /dev/sdb2
+            # - type: zpool
+            #   id: disk2_zpool
+            #   pool: tank
+            #   vdevs:
+            #   - disk2p1
+            #   mountpoint: /
+            #   pool_properties:
+            #     ashift: 12      # (or more, based on /sys)
+            #   fs_properties:
+            #     acltype: posixacl
+            #     relatime: on
+            #     canmount: off
+            #     compression: lz4
+            #     devices: off
+            #     #normalization: formD  # Disabled for the time being until boot is stable
+            #     xattr: sa
+            # # Create ROOT datasets
+            # # zfs create tank/ROOT -o canmount=off -o mountpoint=none
+            # - type: zfs
+            #   id: disk2_dataset
+            #   pool: disk2_zpool
+            #   volume: /ROOT   # (tank/ROOT)
+            #   properties:
+            #     canmount: off
+            #     mountpoint: none
+            # # WORKAROUND: create the ESP mount AFTER / on ZFS
+            # # -   id: disk2p0_mount
+            # #     device: disk2p0_format
+            # #     path: /boot/efi
+            # #     type: mount
     ssh:
         install-server: yes
         authorized-keys:
