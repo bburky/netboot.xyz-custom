@@ -51,6 +51,15 @@ autoinstall:
         - systemctl mask swap.target
         - sysctl --system
 
+        - |
+            curl -sfL https://get.k3s.io | INSTALL_K3S_CHANNEL="v1.26" INSTALL_K3S_EXEC="--disable=traefik" K3S_KUBECONFIG_MODE="644" sh -s - 
+
+        - 'mkdir /home/ubuntu/.kube'
+        # TODO: may have issues with multiple interfaces
+        - |
+            sed "s_server: .*_server: https://$(ip --json route get 192.168.0.1  | jq -r '.[0].prefsrc'):6443/_" /etc/rancher/k3s/k3s.yaml > /home/ubuntu/.kube/config
+        - chown -R ubuntu:ubuntu /home/ubuntu/.kube
+
         # Beep on completion of cloud-init
         - 'modprobe pcspkr'
         - 'beep -d 1200 -f 988 -l 200 --new -f 1319 -l 800'
