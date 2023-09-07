@@ -3,7 +3,7 @@ autoinstall:
     version: 1
     early-commands:
         - |
-            [ "$(cat /sys/devices/virtual/dmi/id/board_name)" = "X11SSV-Q" ] || echo "ERROR: board_name mismatch" && exit 1
+            [ "$(cat /sys/devices/virtual/dmi/id/board_name)" = "X11SSV-Qfoo" ] || (echo "ERROR: board_name mismatch" && exit 1)
     # network:
     #     network:
     # packages:
