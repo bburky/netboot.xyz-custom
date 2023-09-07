@@ -4,6 +4,9 @@ autoinstall:
     early-commands:
         - |
             [ "$(cat /sys/devices/virtual/dmi/id/board_name)" = "X11SSV-Q" ] || (echo "ERROR: board_name mismatch" && exit 1)
+        # zfs-utils appears to be missing from the installer:
+        - apt update
+        - apt-get install -y zfs-utils
     # network:
     #     network:
     # packages:
@@ -123,7 +126,7 @@ autoinstall:
             #              -O normalization=formD -O mountpoint=/ -R /TARGET_MOUNTPOINT \
             #              tank /dev/disk/by-id/virtio-abcdefghi123
             - type: zpool
-              id: disk2_tank
+              id: disk2_zpool
               pool: tank
               vdevs:
               - disk2p1
@@ -141,8 +144,8 @@ autoinstall:
             # Create ROOT datasets
             # zfs create tank/ROOT -o canmount=off -o mountpoint=none
             - type: zfs
-              id: disk2_tank
-              pool: disk2_tank
+              id: disk2_dataset
+              pool: disk2_zpool
               volume: /ROOT   # (tank/ROOT)
               properties:
                 canmount: off
