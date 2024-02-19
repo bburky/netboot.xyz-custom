@@ -21,7 +21,7 @@ goto custom_exit
 :custom_22.04_amd64
 set os Ubuntu
 set os_arch amd64
-set kernel_url ${live_endpoint}/ubuntu-squash/releases/download/22.04.3-7d91a596/
+set kernel_url ${live_endpoint}/ubuntu-squash/releases/download/22.04.3-7e94379b/
 set codename jammy
 set version_number 22.04.3
 imgfree
@@ -37,8 +37,8 @@ md5sum vmlinuz initrd
 boot || goto custom_exit
 
 :custom_22.04_amd64_live
-set squash_url ${live_endpoint}/ubuntu-squash/releases/download/22.04.3-54de5f62/filesystem.squashfs
-set kernel_url ${live_endpoint}/ubuntu-squash/releases/download/22.04.3-54de5f62/
+set squash_url ${live_endpoint}/ubuntu-squash/releases/download/22.04.3-e851f966/filesystem.squashfs
+set kernel_url ${live_endpoint}/ubuntu-squash/releases/download/22.04.3-e851f966/
 imgfree
 kernel ${kernel_url}vmlinuz ip=dhcp boot=casper netboot=url url=${squash_url} initrd=initrd.magic ${cmdline}
 initrd ${kernel_url}initrd
@@ -59,7 +59,7 @@ goto custom_22.04_amd64_live_autoinstall_boot
 :custom_22.04_amd64_live_autoinstall_boot
 set os Ubuntu
 set os_arch amd64
-set kernel_url ${live_endpoint}/ubuntu-squash/releases/download/22.04.3-7d91a596/
+set kernel_url ${live_endpoint}/ubuntu-squash/releases/download/22.04.3-7e94379b/
 set codename jammy
 set version_number 22.04.3
 imgfree
