@@ -1,10 +1,9 @@
 #cloud-config
 autoinstall:
     version: 1
-    # late-commands:
-    #     - foo
-    # early-commands:
-    #     - foo
+    early-commands:
+        - |
+            [ "$(cat /sys/devices/virtual/dmi/id/board_name)" = "ProArt X670E-CREATOR WIFI" ] || (echo "ERROR: board_name mismatch" && exit 1)
     # network:
     #     network:
     # packages:
@@ -23,7 +22,31 @@ autoinstall:
         - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAlMvKelq4naw8MBhzQ7O6JlBeBxjvpOoLoQsPRCEdfI
         allow-pw: no
 
+    late-commands:
+        - echo 'ubuntu ALL=(ALL) NOPASSWD:ALL' > /target/etc/sudoers.d/ubuntu
+
     user-data:
+        hostname: workstation-ubuntu
+
+        # ssh_pwauth: True
+        # disable_root: false
+        # preserve_hostname: true
+
+        write_files:
+        -   path: /etc/sysctl.d/99-k8s.conf
+            permissions: '0644'
+            content: |
+                vm.max_map_count=1524288
+                fs.inotify.max_user_instances=8192
+        
+        -   path: /etc/security/limits.d/99-k8s.conf
+            permissions: '0644'
+            content: |
+                * hard nofile 1000000
+                * soft nofile 1000000
+                * hard nproc 8192
+                * soft nproc 8192
+
         apt:
             sources:
                 docker.list:
@@ -31,6 +54,11 @@ autoinstall:
                     keyid: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
 
         packages:
+            - jq
+            - beep
+            - iptables
+            - open-iscsi
+            - nfs-common
             - docker-ce
             - docker-ce-cli
             - containerd.io
@@ -45,10 +73,14 @@ autoinstall:
         # - "curl -sfL https://get.k3s.io | sh -s - --docker"
         - "curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash"
 
-        - [ curl, -L, -o, /usr/local/bin/zarf, https://github.com/defenseunicorns/zarf/releases/download/v0.27.1/zarf_v0.27.1_Linux_amd64 ]
-        - [ chmod, +x, /usr/local/bin/zarf ]
+        # - [ curl, -L, -o, /usr/local/bin/zarf, https://github.com/defenseunicorns/zarf/releases/download/v0.27.1/zarf_v0.27.1_Linux_amd64 ]
+        # - [ chmod, +x, /usr/local/bin/zarf ]
 
         - [ swapoff, -a ]
         - [ sed, -e, '/swap/ s/^#*/#/', -i, /etc/fstab ]
         - [ systemctl, mask, swap.target ]               
         - [ sysctl, --system ]
+
+        # Beep on completion of cloud-init
+        - 'modprobe pcspkr'
+        - 'beep -d 1200 -f 988 -l 200  --new -f 1319 -l 800'
