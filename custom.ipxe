@@ -8,6 +8,7 @@
 :custom
 clear custom_choice
 menu @bburky
+item new-ubuntu ${space} Ubuntu autoinstall
 item custom_22.04_amd64 ${space} custom_22.04_amd64
 item custom_22.04_amd64_live ${space} custom_22.04_amd64_live
 item custom_22.04_amd64_live_autoinstall ${space} custom_22.04_amd64_live_autoinstall
@@ -16,6 +17,16 @@ item custom_22.04_amd64_live_auto_rke2 ${space} custom_22.04_amd64_live_auto_rke
 choose custom_choice || goto custom_exit
 echo ${cls}
 goto ${custom_choice}
+
+:new-ubuntu
+menu Ubuntu-autoinstall
+item https://raw.githubusercontent.com/bburky/netboot.xyz-custom/master/autoinstall ${space} ProArt autoinstall
+item https://raw.githubusercontent.com/bburky/netboot.xyz-custom/master/autoinstall_rke2 ${space} ProArt autoinstall_rke2
+choose install_url || goto custom_exit
+echo ${cls}
+set install_url 
+set kernel_params autoinstall ds=nocloud-net;s=${install_url}
+chain ubuntu.ipxe || goto custom_exit
 goto custom_exit
 
 :custom_22.04_amd64

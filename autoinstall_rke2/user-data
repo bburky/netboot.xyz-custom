@@ -18,8 +18,7 @@ autoinstall:
     ssh:
         install-server: yes
         authorized-keys:
-        - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDOqA17LOoERyTpng12R8JunvdqPZpAVlBWKPRGklvGcyMyzjr+bw8SZk+NLMmgFATkg2WbH58Rrf59UC6cUuvse45rn0BBADhNY2Hq1ZT2+NHGXOF0BjHLboJN+63ogndnc8UwOPxr55yHFOe7a5c5I9yO09Fw7sjUL5p9btLnigspmd3Mz5xIlRhdrnEfloiVJ2kl0p+2GC6Z1vxQ/rm+qIg1imb+hI2DEJ/yAi0+5x0+Bu8zJ77A7SlplvLvOE4rOB4LnIIppMIpKw+4mPAOg+rORVaUsD17bqSoR4PQJlH9+TcoaEM9hAMWegzyYqXxQsr8lF2zOT7odaZmZmlpzIoYlPfiO0bJBY28LLAzXu2Xl3cwhpaLDOt6Fjx5hdAaylUp0yfkIXEbEm2pC+OYdNWi1AKt4wr3EesdqkovhnA35DbPe4e79qKiuzcJXA1O2QcIvgDFM+njvcGjIKA0JOo/7itMHkjXTQ6h/3ko+dkMQa//35PMF85zZH5P08U=
-        - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAlMvKelq4naw8MBhzQ7O6JlBeBxjvpOoLoQsPRCEdfI
+        - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIH00eMg1knUOMGBYgD6/j4gYvHuliCBVZINdY92Doqe4
         allow-pw: no
     late-commands:
         - echo 'ubuntu ALL=(ALL) NOPASSWD:ALL' > /target/etc/sudoers.d/ubuntu
@@ -60,9 +59,6 @@ autoinstall:
 
                 echo "Running setup as $(whoami)"
 
-                # echo "Resize disks (all nodes)"
-                # lvresize -rl +100%FREE /dev/vgroot/lvroot
-
                 echo "Install iptables (required for nginx ingress controller) (all nodes)"
                 apt install iptables -y
 
@@ -101,10 +97,10 @@ autoinstall:
         - systemctl mask swap.target
         - sysctl --system
 
-        - [ curl, -L, -o, /usr/local/bin/zarf, https://github.com/defenseunicorns/zarf/releases/download/v0.27.1/zarf_v0.27.1_Linux_amd64 ]
-        - [ chmod, +x, /usr/local/bin/zarf ]
+        - [ curl, -L, -o, /usr/local/bin/uds, https://github.com/defenseunicorns/uds-cli/releases/download/v0.17.0/uds-cli_v0.17.0_Linux_amd64 ]
+        - [ chmod, +x, /usr/local/bin/uds ]
 
-        - curl -sfL https://get.rke2.io | INSTALL_RKE2_VERSION="v1.26.3+rke2r1" sh -
+        - curl -sfL https://get.rke2.io | INSTALL_RKE2_VERSION="v1.31.1+rke2r1" sh -
         - mkdir -p /etc/rancher/rke2
         - 'sudo bash -c "/opt/setup.sh server | tee /tmp/setup.log"'
         - 'mkdir /home/ubuntu/.kube'
