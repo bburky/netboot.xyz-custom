@@ -12,15 +12,17 @@
 # echo ${cls}
 # goto ${custom_choice}
 
+# Reuse the netboot.xyz's built in ubuntu.ipxe script, but pre-configure ${cmdline} for autoinstall
+# https://github.com/netbootxyz/netboot.xyz/blob/master/roles/netbootxyz/templates/menu/ubuntu.ipxe.j2
 :ubuntu
 menu Ubuntu autoinstall (select an Ubuntu version and pick "install" on the following menus)
 item https://raw.githubusercontent.com/bburky/netboot.xyz-custom/master/ProArtX670E/autoinstall ${space} ProArt autoinstall
 item https://raw.githubusercontent.com/bburky/netboot.xyz-custom/master/ProArtX670E/autoinstall_rke2 ${space} ProArt autoinstall_rke2
 choose install_url || goto custom_exit
 echo ${cls}
-# menu is required by ubuntu.ipxe's goto (could use this to skip interactive menus)
+# ${menu} is required by ubuntu.ipxe's goto (could use this to skip interactive menus)
 set menu ubuntu
-# ubuntu.ipxe appends cmdline to end of boot params
+# ubuntu.ipxe appends ${cmdline} to end of boot params
 set cmdline autoinstall ds=nocloud-net;s=${install_url}
 # Must use an absolute url for chain to avoid a path relative to the custom menu's ipxe script
 chain https://${boot_domain}/ubuntu.ipxe || goto custom_exit
