@@ -24,7 +24,7 @@ item https://raw.githubusercontent.com/bburky/netboot.xyz-custom/master/autoinst
 item https://raw.githubusercontent.com/bburky/netboot.xyz-custom/master/autoinstall_rke2 ${space} ProArt autoinstall_rke2
 choose install_url || goto custom_exit
 echo ${cls}
-set install_url 
+set menu ubuntu
 set kernel_params autoinstall ds=nocloud-net;s=${install_url}
 chain https://${boot_domain}/ubuntu.ipxe || goto custom_exit
 goto custom_exit
