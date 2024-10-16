@@ -1,12 +1,12 @@
 #cloud-config
+
+# OLD, unused
+
 autoinstall:
     version: 1
     early-commands:
         - |
             [ "$(cat /sys/devices/virtual/dmi/id/board_name)" = "X11SSV-Q" ] || (echo "ERROR: board_name mismatch" && exit 1)
-        # zfs-utils appears to be missing from the installer:
-        - apt-get update
-        - apt-get install -y zfsutils-linux
     # network:
     #     network:
     # packages:

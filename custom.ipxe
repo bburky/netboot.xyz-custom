@@ -3,89 +3,28 @@
 ### netboot.xyz-custom menu
 ###
 
-# ${arch} is x86_64, not amd64 as some of the scripts seem to expect
+# :custom
+# clear custom_choice
+# menu custom menu
+# item ubuntu ${space} Ubuntu autoinstall
+# # TODO more
+# choose custom_choice || goto custom_exit
+# echo ${cls}
+# goto ${custom_choice}
 
-:custom
-clear custom_choice
-menu @bburky
-item new-ubuntu ${space} Ubuntu autoinstall
-item custom_22.04_amd64 ${space} custom_22.04_amd64
-item custom_22.04_amd64_live ${space} custom_22.04_amd64_live
-item custom_22.04_amd64_live_autoinstall ${space} custom_22.04_amd64_live_autoinstall
-item custom_22.04_amd64_live_auto_k3s ${space} custom_22.04_amd64_live_auto_k3s
-item custom_22.04_amd64_live_auto_rke2 ${space} custom_22.04_amd64_live_auto_rke2
-choose custom_choice || goto custom_exit
-echo ${cls}
-goto ${custom_choice}
-
-:new-ubuntu
-menu Ubuntu-autoinstall
-item https://raw.githubusercontent.com/bburky/netboot.xyz-custom/master/autoinstall ${space} ProArt autoinstall
-item https://raw.githubusercontent.com/bburky/netboot.xyz-custom/master/autoinstall_rke2 ${space} ProArt autoinstall_rke2
+:ubuntu
+menu Ubuntu autoinstall (select an Ubuntu version and pick "install" on the following menus)
+item https://raw.githubusercontent.com/bburky/netboot.xyz-custom/master/ProArtX670E/autoinstall ${space} ProArt autoinstall
+item https://raw.githubusercontent.com/bburky/netboot.xyz-custom/master/ProArtX670E/autoinstall_rke2 ${space} ProArt autoinstall_rke2
 choose install_url || goto custom_exit
 echo ${cls}
-# menu is required by ubuntu.ipxe
+# menu is required by ubuntu.ipxe's goto (could use this to skip interactive menus)
 set menu ubuntu
 # ubuntu.ipxe appends cmdline to end of boot params
 set cmdline autoinstall ds=nocloud-net;s=${install_url}
+# Must use an absolute url for chain to avoid a path relative to the custom menu's ipxe script
 chain https://${boot_domain}/ubuntu.ipxe || goto custom_exit
 goto custom_exit
-
-:custom_22.04_amd64
-set os Ubuntu
-set os_arch amd64
-set kernel_url ${live_endpoint}/ubuntu-squash/releases/download/22.04.3-7e94379b/
-set codename jammy
-set version_number 22.04.3
-imgfree
-iseq ${os_arch} amd64 && set ubuntu_iso_url http://releases.ubuntu.com/${codename}/ubuntu-${version_number}-live-server-${os_arch}.iso ||
-iseq ${os_arch} arm64 && set ubuntu_iso_url http://cdimage.ubuntu.com/releases/${version_number}/release/ubuntu-${version_number}-live-server-${os_arch}.iso ||
-isset ${dhcp-server} && set netboot_params ip=dhcp url=${ubuntu_iso_url} || set netboot_params
-echo Loading Ubuntu Subiquity Network Installer...
-kernel ${kernel_url}vmlinuz root=/dev/ram0 ramdisk_size=1500000 ${netboot_params} ${install_params} initrd=initrd.magic ${cmdline}
-initrd ${kernel_url}initrd
-echo
-echo MD5sums:
-md5sum vmlinuz initrd
-boot || goto custom_exit
-
-:custom_22.04_amd64_live
-set squash_url ${live_endpoint}/ubuntu-squash/releases/download/22.04.3-e851f966/filesystem.squashfs
-set kernel_url ${live_endpoint}/ubuntu-squash/releases/download/22.04.3-e851f966/
-imgfree
-kernel ${kernel_url}vmlinuz ip=dhcp boot=casper netboot=url url=${squash_url} initrd=initrd.magic ${cmdline}
-initrd ${kernel_url}initrd
-boot || goto custom_exit
-
-:custom_22.04_amd64_live_autoinstall
-set install_url https://raw.githubusercontent.com/bburky/netboot.xyz-custom/master/autoinstall
-goto custom_22.04_amd64_live_autoinstall_boot
-
-:custom_22.04_amd64_live_auto_k3s
-set install_url https://raw.githubusercontent.com/bburky/netboot.xyz-custom/master/autoinstall_k3s
-goto custom_22.04_amd64_live_autoinstall_boot
-
-:custom_22.04_amd64_live_auto_rke2
-set install_url https://raw.githubusercontent.com/bburky/netboot.xyz-custom/master/autoinstall_rke2
-goto custom_22.04_amd64_live_autoinstall_boot
-
-:custom_22.04_amd64_live_autoinstall_boot
-set os Ubuntu
-set os_arch amd64
-set kernel_url ${live_endpoint}/ubuntu-squash/releases/download/22.04.3-7e94379b/
-set codename jammy
-set version_number 22.04.3
-imgfree
-iseq ${os_arch} amd64 && set ubuntu_iso_url http://releases.ubuntu.com/${codename}/ubuntu-${version_number}-live-server-${os_arch}.iso ||
-iseq ${os_arch} arm64 && set ubuntu_iso_url http://cdimage.ubuntu.com/releases/${version_number}/release/ubuntu-${version_number}-live-server-${os_arch}.iso ||
-isset ${dhcp-server} && set netboot_params ip=dhcp url=${ubuntu_iso_url} || set netboot_params
-echo Loading Ubuntu Subiquity Network Installer...
-kernel ${kernel_url}vmlinuz root=/dev/ram0 ramdisk_size=1500000 ${netboot_params} ${install_params} initrd=initrd.magic autoinstall ds=nocloud-net;s=${install_url} ${cmdline}
-initrd ${kernel_url}initrd
-echo
-echo MD5sums:
-md5sum vmlinuz initrd
-boot || goto custom_exit
 
 :custom_exit
 chain utils.ipxe

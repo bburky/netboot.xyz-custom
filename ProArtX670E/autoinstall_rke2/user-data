@@ -18,7 +18,7 @@ autoinstall:
     ssh:
         install-server: yes
         authorized-keys:
-        - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIH00eMg1knUOMGBYgD6/j4gYvHuliCBVZINdY92Doqe4
+        - ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBD9iaG8uSgbSvXd5/nvZTLeQTazKuO7LzfFTwgsdl3uJQmLbCz3/sle2BEo8zzT/E7qPHfoWa/YoTlXXxEkzREs= 
         allow-pw: no
     late-commands:
         - echo 'ubuntu ALL=(ALL) NOPASSWD:ALL' > /target/etc/sudoers.d/ubuntu

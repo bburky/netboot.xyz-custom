@@ -18,24 +18,21 @@ autoinstall:
     ssh:
         install-server: yes
         authorized-keys:
-        - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIH00eMg1knUOMGBYgD6/j4gYvHuliCBVZINdY92Doqe4
+        - ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBD9iaG8uSgbSvXd5/nvZTLeQTazKuO7LzfFTwgsdl3uJQmLbCz3/sle2BEo8zzT/E7qPHfoWa/YoTlXXxEkzREs=
         allow-pw: no
     late-commands:
         - echo 'ubuntu ALL=(ALL) NOPASSWD:ALL' > /target/etc/sudoers.d/ubuntu
     user-data:
         hostname: workstation-ubuntu
-
         # ssh_pwauth: True
         # disable_root: false
         # preserve_hostname: true
-
         write_files:
         -   path: /etc/sysctl.d/99-k8s.conf
             permissions: '0644'
             content: |
                 vm.max_map_count=1524288
                 fs.inotify.max_user_instances=8192
-        
         -   path: /etc/security/limits.d/99-k8s.conf
             permissions: '0644'
             content: |
@@ -61,23 +58,18 @@ autoinstall:
             - containerd.io
             - docker-buildx-plugin
             - docker-compose-plugin
-
         runcmd:
         - [ systemctl, enable, docker ]
         - [ systemctl, restart, docker ]
         - [ usermod, -aG, docker, ubuntu ]
-
         # - "curl -sfL https://get.k3s.io | sh -s - --docker"
         - "curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash"
-
         - [ curl, -L, -o, /usr/local/bin/uds, https://github.com/defenseunicorns/uds-cli/releases/download/v0.17.0/uds-cli_v0.17.0_Linux_amd64 ]
         - [ chmod, +x, /usr/local/bin/uds ]
-
         - [ swapoff, -a ]
         - [ sed, -e, '/swap/ s/^#*/#/', -i, /etc/fstab ]
         - [ systemctl, mask, swap.target ]               
         - [ sysctl, --system ]
-
         # Beep on completion of cloud-init
         - 'modprobe pcspkr'
         - 'beep -d 1200 -f 988 -l 200  --new -f 1319 -l 800'
