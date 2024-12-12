@@ -11,4 +11,4 @@
 # ${smbios/2.5.0}
 
 # GPD Pocket 3 screen rotation
-iseq ${smbios/2.5.0} G1621-02 && set cmdline "fbcon=rotate:1 video=DSI-1:panel_orientation=right_side_up"
+iseq ${smbios/2.5.0} G1621-02 && set cmdline fbcon=rotate:1 video=DSI-1:panel_orientation=right_side_up
