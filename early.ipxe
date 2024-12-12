@@ -9,6 +9,40 @@
 
 # SMBIOS board-product name:
 # ${smbios/2.5.0}
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
 
 # GPD Pocket 3 screen rotation
 iseq ${smbios/2.5.0} G1621-02 && set cmdline fbcon=rotate:1 video=DSI-1:panel_orientation=right_side_up
