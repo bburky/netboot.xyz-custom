@@ -18,7 +18,7 @@ autoinstall:
     ssh:
         install-server: yes
         authorized-keys:
-        - ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBD9iaG8uSgbSvXd5/nvZTLeQTazKuO7LzfFTwgsdl3uJQmLbCz3/sle2BEo8zzT/E7qPHfoWa/YoTlXXxEkzREs=
+        - ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBL0kxHaDa5VEp+bzHiw3m07yEsU1sOHGs6vnX3OJpFKCXuuEjjovWCuYJcAxXxZPebH2sJm7TXLhHOc0jggKx2U=
         allow-pw: no
     late-commands:
         - echo 'ubuntu ALL=(ALL) NOPASSWD:ALL' > /target/etc/sudoers.d/ubuntu
@@ -59,10 +59,10 @@ autoinstall:
             - docker-buildx-plugin
             - docker-compose-plugin
         runcmd:
+        # - "curl -sfL https://get.k3s.io | sh -s - --docker"
         - [ systemctl, enable, docker ]
         - [ systemctl, restart, docker ]
         - [ usermod, -aG, docker, ubuntu ]
-        # - "curl -sfL https://get.k3s.io | sh -s - --docker"
         - "curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash"
         - [ curl, -L, -o, /usr/local/bin/uds, https://github.com/defenseunicorns/uds-cli/releases/download/v0.17.0/uds-cli_v0.17.0_Linux_amd64 ]
         - [ chmod, +x, /usr/local/bin/uds ]

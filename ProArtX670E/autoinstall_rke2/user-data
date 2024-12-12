@@ -18,7 +18,7 @@ autoinstall:
     ssh:
         install-server: yes
         authorized-keys:
-        - ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBD9iaG8uSgbSvXd5/nvZTLeQTazKuO7LzfFTwgsdl3uJQmLbCz3/sle2BEo8zzT/E7qPHfoWa/YoTlXXxEkzREs= 
+        - ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBL0kxHaDa5VEp+bzHiw3m07yEsU1sOHGs6vnX3OJpFKCXuuEjjovWCuYJcAxXxZPebH2sJm7TXLhHOc0jggKx2U=
         allow-pw: no
     late-commands:
         - echo 'ubuntu ALL=(ALL) NOPASSWD:ALL' > /target/etc/sudoers.d/ubuntu
@@ -100,7 +100,7 @@ autoinstall:
         - [ curl, -L, -o, /usr/local/bin/uds, https://github.com/defenseunicorns/uds-cli/releases/download/v0.17.0/uds-cli_v0.17.0_Linux_amd64 ]
         - [ chmod, +x, /usr/local/bin/uds ]
 
-        - curl -sfL https://get.rke2.io | INSTALL_RKE2_VERSION="v1.31.1+rke2r1" sh -
+        - curl -sfL https://get.rke2.io | INSTALL_RKE2_VERSION="v1.31.3+rke2r1" sh -
         - mkdir -p /etc/rancher/rke2
         - 'sudo bash -c "/opt/setup.sh server | tee /tmp/setup.log"'
         - 'mkdir /home/ubuntu/.kube'
